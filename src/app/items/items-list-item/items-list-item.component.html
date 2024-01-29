@@ -1,14 +1,29 @@
 <li class="list-group-item" style="margin-bottom:10px;" *ngIf="item">
-  <Strong>{{ item.title }}</Strong>
+  <strong>{{ item.title }}</strong>
   <hr>
   {{ item.description }}
 
-  <div class="row" style="padding-top:10;">
-    <div class="col-md-6">
-      <button class='btn btn-primary btn-block' type='button' (click)="edit()">edit item</button>
-    </div>
-    <div class="col-md-6">
-      <button class='btn btn-danger btn-block' type='button' (click)="delete()">delete item</button>
-    </div>
+  <!-- Additional Fields -->
+  <div *ngIf="item.birthDate">
+      <strong>Doğum Tarihi: </strong>{{ item.birthDate | date:'longDate' }}
+  </div>
+  <div *ngIf="item.time">
+      <strong>Saati: </strong>{{ item.time }}
+  </div>
+  <div *ngIf="item.occupation">
+      <strong>Meslek: </strong>{{ item.occupation }}
+  </div>
+  <div *ngIf="item.maritalStatus">
+      <strong>Medeni Durum: </strong>{{ item.maritalStatus | translateMaritalStatus }}
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="row" style="padding-top:10px;">
+      <div class="col-md-6">
+          <button class='btn btn-primary btn-block' type='button' (click)="edit()">düzenle</button>
+      </div>
+      <div class="col-md-6">
+          <button class='btn btn-danger btn-block' type='button' (click)="delete()">sil</button>
+      </div>
   </div>
 </li>

@@ -17,13 +17,13 @@ export class ItemAddEditComponent implements OnInit {
   @Output() formSubmitEvent = new EventEmitter<string>();
 
   itemForm: FormGroup;
-
-  isProcessing: Boolean = false;
+  isProcessing: boolean = false;
 
   checkField  = CheckRequiredField;
 
   constructor(
-    private itemsService: ItemsService
+    private itemsService: ItemsService,
+    private formBuilder: FormBuilder // Assuming FormBuilder is used for simplicity
   ) { }
 
   ngOnInit() {
@@ -31,15 +31,14 @@ export class ItemAddEditComponent implements OnInit {
   }
 
   onSubmit($event) {
-
-    this.isProcessing  = true;
+    this.isProcessing = true;
 
     if (this.itemForm.valid) {
-        if (!this.item) {
-          this.doAddItem();
-        } else {
-          this.doUpdateItem();
-        }
+      if (!this.item) {
+        this.doAddItem();
+      } else {
+        this.doUpdateItem();
+      }
     }
   }
 
@@ -70,17 +69,20 @@ export class ItemAddEditComponent implements OnInit {
   }
 
   private reset() {
-    this.item  = null;
+    this.item = null;
     this.itemForm.reset();
     this.initForm();
   }
 
   private initForm() {
-    this.itemForm = new FormGroup({
-      title: new FormControl(this.item ? this.item.title : '', Validators.required),
-      description: new FormControl(this.item ? this.item.description : ''),
-      id: new FormControl(this.item ? this.item.id : null),
+    this.itemForm = this.formBuilder.group({
+      title: [this.item?.title || '', Validators.required],
+      description: [this.item?.description || ''],
+      id: [this.item?.id || null],
+      birthDate: [this.item?.birthDate || ''],
+      time: [this.item?.time || ''],
+      occupation: [this.item?.occupation || ''],
+      maritalStatus: [this.item?.maritalStatus || '']
     });
   }
-
 }
